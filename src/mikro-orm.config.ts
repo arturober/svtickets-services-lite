@@ -1,17 +1,14 @@
-import { ConnectionOptions, EntityManager } from '@mikro-orm/core';
-import { AsyncLocalStorage } from 'async_hooks';
-const storage = new AsyncLocalStorage<EntityManager>();
+import { ConnectionOptions } from '@mikro-orm/core';
+import { MariaDbDriver } from '@mikro-orm/mariadb';
 
 export default {
   entities: ['dist/entities'], // compiled JS files
-  entitiesTs: ['src/entities'],
-  dbName: 'week3_2021',
-  type: 'mariadb', // one of `mongo` | `mysql` | `mariadb` | `postgresql` | `sqlite`
-  user: 'example',
-  password: 'example',
-  port: 3306,
-  host: 'arturober.com',
+  dbName: process.env.DB_DATABASE || 'svtickets_lite',
+  driver: MariaDbDriver,
+  driverOptions: { connection: { timezone: '+02:00' } },
+  user: process.env.DB_USERNAME || 'example',
+  password: process.env.DB_PASSWORD || 'example',
+  port: parseInt(process.env.DB_SERVER_PORT, 10) || 3306,
+  host: process.env.DB_SERVER_HOST || 'localhost',
   debug: true,
-  // registerRequestContext: false, // disable automatic middleware
-  // context: () => storage.getStore(), // use our AsyncLocalStorage instance
 } as ConnectionOptions;

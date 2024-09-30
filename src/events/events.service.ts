@@ -32,7 +32,7 @@ export class EventsService {
     );
     createDto.image = imageUrl;
 
-    await this.eventRepository.persistAndFlush(event);
+    await this.eventRepository.insert(event);
     return event;
   }
 
