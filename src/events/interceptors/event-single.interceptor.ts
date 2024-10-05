@@ -14,7 +14,7 @@ export class EventSingleInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest();
-    const baseUrl = `${req.protocol}://${
+    const baseUrl = `${this.configService.get<string>('protocol')}://${
       req.headers.host
     }/${this.configService.get<string>('basePath')}`;
     
